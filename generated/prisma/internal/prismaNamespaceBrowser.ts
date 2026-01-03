@@ -72,6 +72,7 @@ export const StaffScalarFieldEnum = {
   id: 'id',
   avatar: 'avatar',
   full_name: 'full_name',
+  address: 'address',
   email: 'email',
   phone: 'phone',
   status: 'status',

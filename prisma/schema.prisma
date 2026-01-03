@@ -30,6 +30,7 @@ model Staff {
 
   avatar    String?
   full_name String
+  address   String
   email     String      @unique
   phone     String      @unique
   status    StaffStatus @default(ACTIVE)
