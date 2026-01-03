@@ -32,7 +32,9 @@ export function CreateStaff({
   const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [countries, setCountries] = useState<Country[]>([]);
+  const [nationalitySearch, setNationalitySearch] = useState("");
   const [countrySearch, setCountrySearch] = useState("");
+  const [showNationalityDropdown, setShowNationalityDropdown] = useState(false);
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
 
   const {
@@ -48,21 +50,33 @@ export function CreateStaff({
     defaultValues: {
       type: StaffType.PERMANENT,
       nationality: "AU",
+      Country: "AU",
     },
   });
 
   const selectedNationality = watch("nationality");
+  const selectedCountry = watch("Country");
 
   useEffect(() => {
     setCountries(getAllCountries());
   }, []);
 
+  const filteredNationalities = countries.filter((country) =>
+    country.name.toLowerCase().includes(nationalitySearch.toLowerCase())
+  );
+
   const filteredCountries = countries.filter((country) =>
     country.name.toLowerCase().includes(countrySearch.toLowerCase())
   );
 
-  const handleCountrySelect = (code: string) => {
+  const handleNationalitySelect = (code: string) => {
     setValue("nationality", code);
+    setShowNationalityDropdown(false);
+    setNationalitySearch("");
+  };
+
+  const handleCountrySelectChange = (code: string) => {
+    setValue("Country", code);
     setShowCountryDropdown(false);
     setCountrySearch("");
   };
@@ -101,12 +115,17 @@ export function CreateStaff({
     setOpen(newOpen);
     if (!newOpen) {
       reset();
+      setNationalitySearch("");
       setCountrySearch("");
+      setShowNationalityDropdown(false);
       setShowCountryDropdown(false);
     }
   };
 
-  const selectedCountry = countries.find((c) => c.code === selectedNationality);
+  const selectedNationalityCountry = countries.find(
+    (c) => c.code === selectedNationality
+  );
+  const selectedCountryData = countries.find((c) => c.code === selectedCountry);
 
   return (
     <Sheet open={open} onOpenChange={handleOpenChange}>
@@ -115,7 +134,7 @@ export function CreateStaff({
           <Plus className="mr-2 h-4 w-4" /> Add Staff
         </Button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent className="overflow-y-auto">
         <SheetHeader>
           <SheetTitle>Add New Staff</SheetTitle>
           <SheetDescription>
@@ -181,16 +200,91 @@ export function CreateStaff({
           </div>
 
           <div className="grid gap-2">
+            <Label htmlFor="city">City</Label>
+            <Input
+              id="city"
+              {...register("city")}
+              className={errors.city ? "border-red-500" : ""}
+            />
+            {errors.city && (
+              <p className="text-red-500 text-xs">{errors.city.message}</p>
+            )}
+          </div>
+
+          <div className="grid gap-2">
             <Label htmlFor="nationality">Nationality</Label>
             <div className="relative">
               <div
                 className={`flex h-9 w-full rounded-md border ${
                   errors.nationality ? "border-red-500" : "border-input"
                 } bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-within:outline-none focus-within:ring-1 focus-within:ring-ring cursor-pointer items-center justify-between`}
+                onClick={() =>
+                  setShowNationalityDropdown(!showNationalityDropdown)
+                }
+              >
+                <span>
+                  {selectedNationalityCountry
+                    ? selectedNationalityCountry.name
+                    : "Select nationality"}
+                </span>
+                <Search className="h-4 w-4 opacity-50" />
+              </div>
+              {showNationalityDropdown && (
+                <div className="absolute top-full left-0 right-0 mt-1 border border-input rounded-md bg-white shadow-md z-50">
+                  <div className="p-2 border-b border-input">
+                    <Input
+                      placeholder="Search nationality..."
+                      value={nationalitySearch}
+                      onChange={(e) => setNationalitySearch(e.target.value)}
+                      className="h-8 text-sm"
+                      autoFocus
+                    />
+                  </div>
+                  <div className="max-h-60 overflow-y-auto">
+                    {filteredNationalities.length > 0 ? (
+                      filteredNationalities.map((country) => (
+                        <div
+                          key={country.code}
+                          className={`px-3 py-2 cursor-pointer text-sm hover:bg-accent ${
+                            selectedNationality === country.code
+                              ? "bg-accent font-semibold"
+                              : ""
+                          }`}
+                          onClick={() => handleNationalitySelect(country.code)}
+                        >
+                          {country.name} ({country.code})
+                        </div>
+                      ))
+                    ) : (
+                      <div className="px-3 py-2 text-sm text-muted-foreground">
+                        No countries found
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+              <input type="hidden" {...register("nationality")} />
+            </div>
+            {errors.nationality && (
+              <p className="text-red-500 text-xs">
+                {errors.nationality.message}
+              </p>
+            )}
+          </div>
+
+          <div className="grid gap-2">
+            <Label htmlFor="Country">Country</Label>
+            <div className="relative">
+              <div
+                className={`flex h-9 w-full rounded-md border ${
+                  errors.Country ? "border-red-500" : "border-input"
+                } bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-within:outline-none focus-within:ring-1 focus-within:ring-ring cursor-pointer items-center justify-between`}
                 onClick={() => setShowCountryDropdown(!showCountryDropdown)}
               >
                 <span>
-                  {selectedCountry ? selectedCountry.name : "Select country"}
+                  {selectedCountryData
+                    ? selectedCountryData.name
+                    : "Select country"}
                 </span>
                 <Search className="h-4 w-4 opacity-50" />
               </div>
@@ -211,11 +305,13 @@ export function CreateStaff({
                         <div
                           key={country.code}
                           className={`px-3 py-2 cursor-pointer text-sm hover:bg-accent ${
-                            selectedNationality === country.code
+                            selectedCountry === country.code
                               ? "bg-accent font-semibold"
                               : ""
                           }`}
-                          onClick={() => handleCountrySelect(country.code)}
+                          onClick={() =>
+                            handleCountrySelectChange(country.code)
+                          }
                         >
                           {country.name} ({country.code})
                         </div>
@@ -228,12 +324,10 @@ export function CreateStaff({
                   </div>
                 </div>
               )}
-              <input type="hidden" {...register("nationality")} />
+              <input type="hidden" {...register("Country")} />
             </div>
-            {errors.nationality && (
-              <p className="text-red-500 text-xs">
-                {errors.nationality.message}
-              </p>
+            {errors.Country && (
+              <p className="text-red-500 text-xs">{errors.Country.message}</p>
             )}
           </div>
 
@@ -278,7 +372,7 @@ export function CreateStaff({
             )}
           </div>
 
-          <SheetFooter className="px-0">
+          <SheetFooter className="px-0 pt-4">
             <div className="flex gap-2">
               <Button
                 className="flex-1"

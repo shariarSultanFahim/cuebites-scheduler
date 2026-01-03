@@ -8,7 +8,9 @@ export const staffSchema = z.object({
   gender: z.enum(Gender),
   avatar: z.url().optional(),
   address: z.string().min(5, "Address is required"),
+  city: z.string().min(1, "City is required"),
   nationality: z.string().length(2, "Nationality is required"),
+  Country: z.string().length(2, "Country is required"),
   status: z.enum(StaffStatus).optional(),
   type: z.enum(StaffType).optional(),
 });

@@ -23,9 +23,10 @@ export function StaffTable({ data: staffs }: { data: Staff[] }) {
             <TableHead>Name</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Phone</TableHead>
+            <TableHead>Location</TableHead>
+            <TableHead>Nationality</TableHead>
             <TableHead className="text-center">Status</TableHead>
             <TableHead className="text-center">Gender</TableHead>
-            <TableHead>Nationality</TableHead>
             <TableHead>Created At</TableHead>
             <TableHead>Updated At</TableHead>
           </TableRow>
@@ -53,6 +54,23 @@ export function StaffTable({ data: staffs }: { data: Staff[] }) {
               <TableCell>{staff.full_name}</TableCell>
               <TableCell>{staff.email}</TableCell>
               <TableCell>{staff.phone}</TableCell>
+              <TableCell>
+                {staff.city + ", " + getCountryNameByCode(staff.Country)}
+              </TableCell>
+
+              <TableCell>
+                <div className="flex items-center justify-start gap-2">
+                  <Image
+                    width={24}
+                    height={24}
+                    src={getCountryFlagEmoji(staff.nationality)}
+                    alt={getCountryNameByCode(staff.nationality)}
+                  />
+                  <span className="text-sm">
+                    {getCountryNameByCode(staff.nationality)}
+                  </span>
+                </div>
+              </TableCell>
               <TableCell className="text-center">
                 <Badge
                   className="text-xs!"
@@ -75,20 +93,6 @@ export function StaffTable({ data: staffs }: { data: Staff[] }) {
                 </Badge>
               </TableCell>
               <TableCell className="text-center">{staff.gender}</TableCell>
-              <TableCell>
-                <div className="flex items-start justify-start gap-2">
-                  <Image
-                    width={6}
-                    height={4}
-                    src={getCountryFlagEmoji(staff.nationality)}
-                    alt={getCountryNameByCode(staff.nationality)}
-                    className="w-6 h-4 rounded-sm shadow-sm border border-border/50"
-                  />
-                  <span className="text-sm">
-                    {getCountryNameByCode(staff.nationality)}
-                  </span>
-                </div>
-              </TableCell>
               <TableCell>{staff.createdAt.toLocaleString()}</TableCell>
               <TableCell>{staff.updatedAt.toLocaleString()}</TableCell>
             </TableRow>

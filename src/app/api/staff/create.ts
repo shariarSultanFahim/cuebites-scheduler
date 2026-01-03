@@ -1,7 +1,6 @@
 "use server";
 
 import { prisma } from "@/generated/prisma/prisma";
-import { revalidateTag, updateTag } from "next/cache";
 import { staffSchema } from "./schema";
 
 export async function createStaff(formData: FormData) {
@@ -27,8 +26,7 @@ export async function createStaff(formData: FormData) {
 
   try {
     const newStaff = await prisma.staff.create({ data });
-    updateTag("staff-list");
-    revalidateTag("staff-list", "max");
+
     return { success: true, data: newStaff };
   } catch (error) {
     console.error("Failed to create staff:", error);

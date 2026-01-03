@@ -1,12 +1,25 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Staff } from "@/generated/prisma/client";
-import { Loader2 } from "lucide-react";
-import { useState, useTransition } from "react";
+import { StaffStatus } from "@/generated/prisma/enums";
+import { useDebounce } from "@/hooks/use-debounce";
+import { Layout, LayoutGrid, Search, SlidersHorizontal } from "lucide-react";
+import { useEffect, useState, useTransition } from "react";
 import { getStaffList } from "../../api/staff/list";
 import { CreateStaff } from "./component/createStaff";
+import StaffGrid from "./component/staffGrid";
 import { StaffTable } from "./component/staffTable";
+
+const STAFF_STATUS_FILTERS = [
+  { label: "Current Staff", value: undefined },
+  { label: "Active", value: "ACTIVE" as StaffStatus },
+  { label: "Onboarding", value: "ONBOARDING" as StaffStatus },
+  { label: "Terminated", value: "TERMINATED" as StaffStatus },
+  { label: "All Staff", value: "ALL" },
+];
 
 export default function StaffClientView({
   initialStaff,
@@ -14,35 +27,118 @@ export default function StaffClientView({
   initialStaff: Staff[];
 }) {
   const [staff, setStaff] = useState(initialStaff);
-  // useTransition tracks if a server action or re-fetch is in progress
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState<string | undefined>(
+    undefined
+  );
+  const [viewMode, setViewMode] = useState<"table" | "grid">("grid");
   const [isPending, startTransition] = useTransition();
 
+  const debouncedSearchQuery = useDebounce(searchQuery, 300);
+
+  useEffect(() => {
+    startTransition(async () => {
+      let status: StaffStatus | undefined = undefined;
+      if (selectedStatus && selectedStatus !== "ALL") {
+        status = selectedStatus as StaffStatus;
+      }
+      const freshData = await getStaffList(
+        debouncedSearchQuery || undefined,
+        status
+      );
+      setStaff(freshData);
+    });
+  }, [debouncedSearchQuery, selectedStatus]);
+
+  const handleStatusFilter = (statusValue: string | undefined) => {
+    setSelectedStatus(statusValue);
+  };
+
   const handleRefresh = () => {
+    setSearchQuery("");
+    setSelectedStatus(undefined);
     startTransition(async () => {
       const freshData = await getStaffList();
       setStaff(freshData);
     });
   };
 
-  console.log("staff", staff);
-
   return (
-    <div className={isPending ? "opacity-50 pointer-events-none" : ""}>
-      <div className="flex justify-between mb-4">
-        <div className="flex gap-2">
-          <Button
-            onClick={handleRefresh}
-            disabled={isPending}
-            variant="outline"
-          >
-            {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Refresh
-          </Button>
-          <CreateStaff onStaffCreated={handleRefresh} />
+    <div>
+      <div className="mb-6">
+        {/* Top Bar */}
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex gap-4 justify-center items-center">
+            {/* Search */}
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                disabled={isPending}
+                className="pl-10 w-full"
+              />
+            </div>
+
+            {/* View Toggle */}
+            <div className="flex items-center gap-1 border rounded-md p-1">
+              <Button
+                size="sm"
+                variant={viewMode === "table" ? "default" : "ghost"}
+                onClick={() => setViewMode("table")}
+                className="h-8 w-8 p-0"
+              >
+                <Layout className="h-4 w-4" />
+              </Button>
+              <Button
+                size="sm"
+                variant={viewMode === "grid" ? "default" : "ghost"}
+                onClick={() => setViewMode("grid")}
+                className="h-8 w-8 p-0"
+              >
+                <LayoutGrid className="h-4 w-4" />
+              </Button>
+            </div>
+
+            {/* Status Filter Tabs */}
+            <ToggleGroup
+              type="single"
+              value={selectedStatus || "CURRENT"}
+              onValueChange={(value) => handleStatusFilter(value || undefined)}
+              disabled={isPending}
+            >
+              {STAFF_STATUS_FILTERS.map((filter) => (
+                <ToggleGroupItem
+                  key={filter.value}
+                  value={filter.value || ""}
+                  aria-label={filter.label}
+                  className={`${
+                    selectedStatus === filter.value
+                      ? "text-black border border-black bg-white"
+                      : "text-gray-500 bg-gray-200/50"
+                  }`}
+                >
+                  {filter.label}
+                </ToggleGroupItem>
+              ))}
+            </ToggleGroup>
+          </div>
+
+          <div className="space-x-2">
+            {/* Filter Button */}
+            <Button variant="outline" size="sm" className="gap-2">
+              <SlidersHorizontal className="h-4 w-4" />
+              Filter
+            </Button>
+
+            <CreateStaff onStaffCreated={handleRefresh} />
+          </div>
         </div>
       </div>
 
-      <StaffTable data={staff} />
+      {viewMode === "table" && <StaffTable data={staff} />}
+      {viewMode === "grid" && <StaffGrid staffList={staff} />}
     </div>
   );
 }

@@ -38,6 +38,8 @@ export type StaffMinAggregateOutputType = {
   id: number | null
   avatar: string | null
   full_name: string | null
+  city: string | null
+  Country: string | null
   address: string | null
   nationality: string | null
   email: string | null
@@ -53,6 +55,8 @@ export type StaffMaxAggregateOutputType = {
   id: number | null
   avatar: string | null
   full_name: string | null
+  city: string | null
+  Country: string | null
   address: string | null
   nationality: string | null
   email: string | null
@@ -68,6 +72,8 @@ export type StaffCountAggregateOutputType = {
   id: number
   avatar: number
   full_name: number
+  city: number
+  Country: number
   address: number
   nationality: number
   email: number
@@ -93,6 +99,8 @@ export type StaffMinAggregateInputType = {
   id?: true
   avatar?: true
   full_name?: true
+  city?: true
+  Country?: true
   address?: true
   nationality?: true
   email?: true
@@ -108,6 +116,8 @@ export type StaffMaxAggregateInputType = {
   id?: true
   avatar?: true
   full_name?: true
+  city?: true
+  Country?: true
   address?: true
   nationality?: true
   email?: true
@@ -123,6 +133,8 @@ export type StaffCountAggregateInputType = {
   id?: true
   avatar?: true
   full_name?: true
+  city?: true
+  Country?: true
   address?: true
   nationality?: true
   email?: true
@@ -225,6 +237,8 @@ export type StaffGroupByOutputType = {
   id: number
   avatar: string | null
   full_name: string
+  city: string
+  Country: string
   address: string
   nationality: string
   email: string
@@ -263,6 +277,8 @@ export type StaffWhereInput = {
   id?: Prisma.IntFilter<"Staff"> | number
   avatar?: Prisma.StringNullableFilter<"Staff"> | string | null
   full_name?: Prisma.StringFilter<"Staff"> | string
+  city?: Prisma.StringFilter<"Staff"> | string
+  Country?: Prisma.StringFilter<"Staff"> | string
   address?: Prisma.StringFilter<"Staff"> | string
   nationality?: Prisma.StringFilter<"Staff"> | string
   email?: Prisma.StringFilter<"Staff"> | string
@@ -279,6 +295,8 @@ export type StaffOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
   full_name?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  Country?: Prisma.SortOrder
   address?: Prisma.SortOrder
   nationality?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -300,6 +318,8 @@ export type StaffWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.StaffWhereInput | Prisma.StaffWhereInput[]
   avatar?: Prisma.StringNullableFilter<"Staff"> | string | null
   full_name?: Prisma.StringFilter<"Staff"> | string
+  city?: Prisma.StringFilter<"Staff"> | string
+  Country?: Prisma.StringFilter<"Staff"> | string
   address?: Prisma.StringFilter<"Staff"> | string
   nationality?: Prisma.StringFilter<"Staff"> | string
   status?: Prisma.EnumStaffStatusFilter<"Staff"> | $Enums.StaffStatus
@@ -314,6 +334,8 @@ export type StaffOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
   full_name?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  Country?: Prisma.SortOrder
   address?: Prisma.SortOrder
   nationality?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -337,6 +359,8 @@ export type StaffScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"Staff"> | number
   avatar?: Prisma.StringNullableWithAggregatesFilter<"Staff"> | string | null
   full_name?: Prisma.StringWithAggregatesFilter<"Staff"> | string
+  city?: Prisma.StringWithAggregatesFilter<"Staff"> | string
+  Country?: Prisma.StringWithAggregatesFilter<"Staff"> | string
   address?: Prisma.StringWithAggregatesFilter<"Staff"> | string
   nationality?: Prisma.StringWithAggregatesFilter<"Staff"> | string
   email?: Prisma.StringWithAggregatesFilter<"Staff"> | string
@@ -351,6 +375,8 @@ export type StaffScalarWhereWithAggregatesInput = {
 export type StaffCreateInput = {
   avatar?: string | null
   full_name: string
+  city?: string
+  Country?: string
   address: string
   nationality?: string
   email: string
@@ -367,6 +393,8 @@ export type StaffUncheckedCreateInput = {
   id?: number
   avatar?: string | null
   full_name: string
+  city?: string
+  Country?: string
   address: string
   nationality?: string
   email: string
@@ -382,6 +410,8 @@ export type StaffUncheckedCreateInput = {
 export type StaffUpdateInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  Country?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   nationality?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -398,6 +428,8 @@ export type StaffUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  Country?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   nationality?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -414,6 +446,8 @@ export type StaffCreateManyInput = {
   id?: number
   avatar?: string | null
   full_name: string
+  city?: string
+  Country?: string
   address: string
   nationality?: string
   email: string
@@ -428,6 +462,8 @@ export type StaffCreateManyInput = {
 export type StaffUpdateManyMutationInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  Country?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   nationality?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -443,6 +479,8 @@ export type StaffUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  Country?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   nationality?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -458,6 +496,8 @@ export type StaffCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
   full_name?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  Country?: Prisma.SortOrder
   address?: Prisma.SortOrder
   nationality?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -477,6 +517,8 @@ export type StaffMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
   full_name?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  Country?: Prisma.SortOrder
   address?: Prisma.SortOrder
   nationality?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -492,6 +534,8 @@ export type StaffMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
   full_name?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  Country?: Prisma.SortOrder
   address?: Prisma.SortOrder
   nationality?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -561,6 +605,8 @@ export type StaffUpdateOneRequiredWithoutSchedulesNestedInput = {
 export type StaffCreateWithoutSchedulesInput = {
   avatar?: string | null
   full_name: string
+  city?: string
+  Country?: string
   address: string
   nationality?: string
   email: string
@@ -576,6 +622,8 @@ export type StaffUncheckedCreateWithoutSchedulesInput = {
   id?: number
   avatar?: string | null
   full_name: string
+  city?: string
+  Country?: string
   address: string
   nationality?: string
   email: string
@@ -606,6 +654,8 @@ export type StaffUpdateToOneWithWhereWithoutSchedulesInput = {
 export type StaffUpdateWithoutSchedulesInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  Country?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   nationality?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -621,6 +671,8 @@ export type StaffUncheckedUpdateWithoutSchedulesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  Country?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   nationality?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -667,6 +719,8 @@ export type StaffSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   id?: boolean
   avatar?: boolean
   full_name?: boolean
+  city?: boolean
+  Country?: boolean
   address?: boolean
   nationality?: boolean
   email?: boolean
@@ -684,6 +738,8 @@ export type StaffSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   id?: boolean
   avatar?: boolean
   full_name?: boolean
+  city?: boolean
+  Country?: boolean
   address?: boolean
   nationality?: boolean
   email?: boolean
@@ -699,6 +755,8 @@ export type StaffSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   id?: boolean
   avatar?: boolean
   full_name?: boolean
+  city?: boolean
+  Country?: boolean
   address?: boolean
   nationality?: boolean
   email?: boolean
@@ -714,6 +772,8 @@ export type StaffSelectScalar = {
   id?: boolean
   avatar?: boolean
   full_name?: boolean
+  city?: boolean
+  Country?: boolean
   address?: boolean
   nationality?: boolean
   email?: boolean
@@ -725,7 +785,7 @@ export type StaffSelectScalar = {
   updatedAt?: boolean
 }
 
-export type StaffOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "avatar" | "full_name" | "address" | "nationality" | "email" | "phone" | "status" | "gender" | "type" | "createdAt" | "updatedAt", ExtArgs["result"]["staff"]>
+export type StaffOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "avatar" | "full_name" | "city" | "Country" | "address" | "nationality" | "email" | "phone" | "status" | "gender" | "type" | "createdAt" | "updatedAt", ExtArgs["result"]["staff"]>
 export type StaffInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   schedules?: boolean | Prisma.Staff$schedulesArgs<ExtArgs>
   _count?: boolean | Prisma.StaffCountOutputTypeDefaultArgs<ExtArgs>
@@ -742,6 +802,8 @@ export type $StaffPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     id: number
     avatar: string | null
     full_name: string
+    city: string
+    Country: string
     address: string
     nationality: string
     email: string
@@ -1178,6 +1240,8 @@ export interface StaffFieldRefs {
   readonly id: Prisma.FieldRef<"Staff", 'Int'>
   readonly avatar: Prisma.FieldRef<"Staff", 'String'>
   readonly full_name: Prisma.FieldRef<"Staff", 'String'>
+  readonly city: Prisma.FieldRef<"Staff", 'String'>
+  readonly Country: Prisma.FieldRef<"Staff", 'String'>
   readonly address: Prisma.FieldRef<"Staff", 'String'>
   readonly nationality: Prisma.FieldRef<"Staff", 'String'>
   readonly email: Prisma.FieldRef<"Staff", 'String'>

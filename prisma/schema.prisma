@@ -30,8 +30,10 @@ model Staff {
 
   avatar      String?
   full_name   String
+  city        String      @default("")
+  Country     String      @default("")
   address     String
-  nationality String      @default("AU")
+  nationality String      @default("")
   email       String      @unique
   phone       String      @unique
   status      StaffStatus @default(ACTIVE)
