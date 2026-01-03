@@ -1,13 +1,13 @@
 "use server";
 
-import { Prisma } from "@/generated/prisma/client";
+import { prisma } from "@/generated/prisma/prisma";
 import { revalidateTag, updateTag } from "next/cache";
 import { staffSchema } from "./schema";
 
 export async function createStaff(formData: FormData) {
   const data = staffSchema.parse(Object.fromEntries(formData));
 
-  const newStaff = await Prisma.staff.create({ data });
+  const newStaff = await prisma.staff.create({ data });
 
   // Next 16: Immediately expires the tag and refetches for the current route
   updateTag("staff-list");
