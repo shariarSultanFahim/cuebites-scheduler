@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+enum StaffStatus {
+  ACTIVE
+  INACTIVE
+  ON_LEAVE
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum StaffType {
+  PERMANENT
+  CONTRACTOR
+  INTERN
+}
+
+model Staff {
+  id        Int         @id @default(autoincrement())
+
+  avatar    String?
+  full_name String
+  email     String      @unique
+  phone     String      @unique
+  status    StaffStatus @default(ACTIVE)
+  gender    Gender
+  type      StaffType   @default(PERMANENT)
+  
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  
+  // Relation to Schedule
+  schedules Schedule[]
+}
+
+model Schedule {
+  id          Int     @id @default(autoincrement())
+  title       String
+  description String?
+  
+  // Time Slot
+  startTime   DateTime
+  endTime     DateTime
+
+  // Relationship to Staff
+  staffId     Int
+  staff       Staff    @relation(fields: [staffId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([startTime, endTime])
+}
