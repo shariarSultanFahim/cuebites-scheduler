@@ -594,6 +594,7 @@ export const StaffScalarFieldEnum = {
   avatar: 'avatar',
   full_name: 'full_name',
   address: 'address',
+  nationality: 'nationality',
   email: 'email',
   phone: 'phone',
   status: 'status',

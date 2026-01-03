@@ -11,8 +11,8 @@
 
 export const StaffStatus = {
   ACTIVE: 'ACTIVE',
-  INACTIVE: 'INACTIVE',
-  ON_LEAVE: 'ON_LEAVE'
+  ONBOARDING: 'ONBOARDING',
+  TERMINATED: 'TERMINATED'
 } as const
 
 export type StaffStatus = (typeof StaffStatus)[keyof typeof StaffStatus]

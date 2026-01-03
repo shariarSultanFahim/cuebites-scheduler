@@ -9,8 +9,8 @@ datasource db {
 
 enum StaffStatus {
   ACTIVE
-  INACTIVE
-  ON_LEAVE
+  ONBOARDING
+  TERMINATED
 }
 
 enum Gender {
@@ -26,16 +26,17 @@ enum StaffType {
 }
 
 model Staff {
-  id        Int         @id @default(autoincrement())
+  id          Int         @id @default(autoincrement())
 
-  avatar    String?
-  full_name String
-  address   String
-  email     String      @unique
-  phone     String      @unique
-  status    StaffStatus @default(ACTIVE)
-  gender    Gender
-  type      StaffType   @default(PERMANENT)
+  avatar      String?
+  full_name   String
+  address     String
+  nationality String      @default("AU")
+  email       String      @unique
+  phone       String      @unique
+  status      StaffStatus @default(ACTIVE)
+  gender      Gender
+  type        StaffType   @default(PERMANENT)
   
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt

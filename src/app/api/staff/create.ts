@@ -5,13 +5,36 @@ import { revalidateTag, updateTag } from "next/cache";
 import { staffSchema } from "./schema";
 
 export async function createStaff(formData: FormData) {
-  const data = staffSchema.parse(Object.fromEntries(formData));
+  const rawData = Object.fromEntries(formData);
 
-  const newStaff = await prisma.staff.create({ data });
+  // console.log("Raw Data:", rawData);
 
-  // Next 16: Immediately expires the tag and refetches for the current route
-  updateTag("staff-list");
-  revalidateTag("staff-list", "max");
+  if (rawData.avatar === "") {
+    delete rawData.avatar;
+  }
 
-  return { success: true, data: newStaff };
+  const parseResult = staffSchema.safeParse(rawData);
+
+  if (!parseResult.success) {
+    return {
+      success: false,
+      errors: parseResult.error.flatten().fieldErrors,
+      message: "Validation failed",
+    };
+  }
+
+  const data = parseResult.data;
+
+  try {
+    const newStaff = await prisma.staff.create({ data });
+    updateTag("staff-list");
+    revalidateTag("staff-list", "max");
+    return { success: true, data: newStaff };
+  } catch (error) {
+    console.error("Failed to create staff:", error);
+    return {
+      success: false,
+      message: "Failed to create staff. Email or Phone might already exist.",
+    };
+  }
 }

@@ -1,3 +1,4 @@
+"use server";
 import { prisma } from "@/generated/prisma/prisma";
 import { cacheTag } from "next/cache";
 
