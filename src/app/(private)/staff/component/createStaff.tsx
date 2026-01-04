@@ -18,6 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, Plus, Search } from "lucide-react";
 import { useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 import { createStaff } from "../../../api/staff/create";
 import { staffSchema } from "../../../api/staff/schema";
@@ -92,6 +93,7 @@ export function CreateStaff({
     startTransition(async () => {
       const result = await createStaff(formData);
       if (result.success) {
+        toast.success("Staff created successfully");
         reset();
         setOpen(false);
         onStaffCreated?.();
@@ -102,10 +104,12 @@ export function CreateStaff({
               message: (value as string[])[0],
             });
           });
+          toast.error(result.message || "Failed to create staff");
         } else {
           setError("root", {
             message: result.message || "Something went wrong",
           });
+          toast.error(result.message || "Failed to create staff");
         }
       }
     });

@@ -6,7 +6,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Staff } from "@/generated/prisma/client";
 import { StaffStatus } from "@/generated/prisma/enums";
 import { useDebounce } from "@/hooks/use-debounce";
-import { Layout, LayoutGrid, Search, SlidersHorizontal } from "lucide-react";
+import { Layout, LayoutGrid, Search } from "lucide-react";
 import { useEffect, useState, useTransition } from "react";
 import { getStaffList } from "../../api/staff/list";
 import { CreateStaff } from "./component/createStaff";
@@ -14,11 +14,19 @@ import StaffGrid from "./component/staffGrid";
 import { StaffTable } from "./component/staffTable";
 
 const STAFF_STATUS_FILTERS = [
-  { label: "Current Staff", value: undefined },
-  { label: "Active", value: "ACTIVE" as StaffStatus },
-  { label: "Onboarding", value: "ONBOARDING" as StaffStatus },
-  { label: "Terminated", value: "TERMINATED" as StaffStatus },
-  { label: "All Staff", value: "ALL" },
+  { label: "Current Staff", value: undefined, key: "current" },
+  { label: "Active", value: "ACTIVE" as StaffStatus, key: "active" },
+  {
+    label: "Onboarding",
+    value: "ONBOARDING" as StaffStatus,
+    key: "onboarding",
+  },
+  {
+    label: "Terminated",
+    value: "TERMINATED" as StaffStatus,
+    key: "terminated",
+  },
+  { label: "All Staff", value: "ALL", key: "all" },
 ];
 
 export default function StaffClientView({
@@ -110,7 +118,7 @@ export default function StaffClientView({
             >
               {STAFF_STATUS_FILTERS.map((filter) => (
                 <ToggleGroupItem
-                  key={filter.value}
+                  key={filter.key}
                   value={filter.value || ""}
                   aria-label={filter.label}
                   className={`${
@@ -125,15 +133,7 @@ export default function StaffClientView({
             </ToggleGroup>
           </div>
 
-          <div className="space-x-2">
-            {/* Filter Button */}
-            <Button variant="outline" size="sm" className="gap-2">
-              <SlidersHorizontal className="h-4 w-4" />
-              Filter
-            </Button>
-
-            <CreateStaff onStaffCreated={handleRefresh} />
-          </div>
+          <CreateStaff onStaffCreated={handleRefresh} />
         </div>
       </div>
 

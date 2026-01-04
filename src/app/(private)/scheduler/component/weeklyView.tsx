@@ -32,11 +32,17 @@ interface Schedule {
 interface WeeklyViewProps {
   currentDate: Date;
   filteredSchedules: Schedule[];
+  staffList: Staff[];
+  onScheduleUpdated: () => void;
+  onScheduleDeleted: () => void;
 }
 
 export default function WeeklyView({
   currentDate,
   filteredSchedules,
+  staffList,
+  onScheduleUpdated,
+  onScheduleDeleted,
 }: WeeklyViewProps) {
   const weekStart = startOfWeek(currentDate, { weekStartsOn: 0 });
   const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
@@ -80,12 +86,17 @@ export default function WeeklyView({
                     daySchedules.map((schedule) => (
                       <ScheduleCard
                         key={schedule.id}
+                        id={schedule.id}
+                        staff={schedule.staff}
                         staff_name={schedule.staff.full_name}
                         start_time={schedule.startTime}
                         end_time={schedule.endTime}
                         work_address={schedule.workAddress}
                         shift_bonus={schedule.shiftBonus}
                         instruction={schedule.instruction}
+                        staffList={staffList}
+                        onScheduleUpdated={onScheduleUpdated}
+                        onScheduleDeleted={onScheduleDeleted}
                       />
                     ))
                   )}

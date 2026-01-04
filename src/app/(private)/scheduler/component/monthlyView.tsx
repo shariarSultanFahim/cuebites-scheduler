@@ -34,13 +34,19 @@ interface Schedule {
 interface MonthlyViewProps {
   currentDate: Date;
   filteredSchedules: Schedule[];
+  staffList: Staff[];
   onMonthChange: (date: Date) => void;
+  onScheduleUpdated: () => void;
+  onScheduleDeleted: () => void;
 }
 
 export default function MonthlyView({
   currentDate,
   filteredSchedules,
+  staffList,
   onMonthChange,
+  onScheduleUpdated,
+  onScheduleDeleted,
 }: MonthlyViewProps) {
   const daysInMonth = getDaysInMonth(currentDate);
   const firstDayOfMonth = new Date(
@@ -137,12 +143,17 @@ export default function MonthlyView({
                             : daySchedules.map((schedule) => (
                                 <ScheduleCard
                                   key={schedule.id}
+                                  id={schedule.id}
+                                  staff={schedule.staff}
                                   staff_name={schedule.staff.full_name}
                                   start_time={schedule.startTime}
                                   end_time={schedule.endTime}
                                   work_address={schedule.workAddress}
                                   shift_bonus={schedule.shiftBonus}
                                   instruction={schedule.instruction}
+                                  staffList={staffList}
+                                  onScheduleUpdated={onScheduleUpdated}
+                                  onScheduleDeleted={onScheduleDeleted}
                                 />
                               ));
                         })()}

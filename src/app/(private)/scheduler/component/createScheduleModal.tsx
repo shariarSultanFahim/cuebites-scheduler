@@ -24,6 +24,7 @@ import { Loader2 } from "lucide-react";
 import moment from "moment";
 import { ReactNode, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 import { createSchedule } from "../../../api/schedule/create";
 
@@ -77,6 +78,7 @@ export default function CreateScheduleModal({
     },
   });
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const selectedStaffId = watch("staffId");
   const startTime = watch("startTime");
   const shiftHours = watch("shiftHours");
@@ -106,6 +108,7 @@ export default function CreateScheduleModal({
     startTransition(async () => {
       const result = await createSchedule(submitData);
       if (result.success) {
+        toast.success("Schedule created successfully");
         reset();
         setOpen(false);
         onScheduleCreated();
@@ -116,10 +119,12 @@ export default function CreateScheduleModal({
               message: (value as string[])[0],
             });
           });
+          toast.error(result.message || "Failed to create schedule");
         } else {
           setError("root", {
             message: result.message || "Failed to create schedule",
           });
+          toast.error(result.message || "Failed to create schedule");
         }
       }
     });

@@ -155,17 +155,53 @@ export default function SchedulerPage() {
     setSchedules(scheduleData as Schedule[]);
   };
 
+  const handleScheduleUpdated = async () => {
+    // Reload schedules after update
+    const rangeStart =
+      viewMode === "weekly"
+        ? startOfWeek(currentDate, { weekStartsOn: 0 })
+        : startOfMonth(currentDate);
+    const rangeEnd =
+      viewMode === "weekly"
+        ? endOfWeek(currentDate, { weekStartsOn: 0 })
+        : endOfMonth(currentDate);
+
+    const scheduleData = await getScheduleList({
+      startTime: rangeStart,
+      endTime: rangeEnd,
+    });
+    setSchedules(scheduleData as Schedule[]);
+  };
+
+  const handleScheduleDeleted = async () => {
+    // Reload schedules after deletion
+    const rangeStart =
+      viewMode === "weekly"
+        ? startOfWeek(currentDate, { weekStartsOn: 0 })
+        : startOfMonth(currentDate);
+    const rangeEnd =
+      viewMode === "weekly"
+        ? endOfWeek(currentDate, { weekStartsOn: 0 })
+        : endOfMonth(currentDate);
+
+    const scheduleData = await getScheduleList({
+      startTime: rangeStart,
+      endTime: rangeEnd,
+    });
+    setSchedules(scheduleData as Schedule[]);
+  };
+
   return (
     <div className="flex h-full gap-4 p-6">
       {/* Left Sidebar */}
       <div className="hidden lg:block">
-        <div className="w-64 border-r pr-4">
+        <div className="w-64 ">
           <div className="mb-6">
             <Input
               placeholder="Search Staff..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="mb-4"
+              className=""
             />
           </div>
         </div>
@@ -310,6 +346,9 @@ export default function SchedulerPage() {
           <WeeklyView
             currentDate={currentDate}
             filteredSchedules={filteredSchedules}
+            staffList={staffList}
+            onScheduleUpdated={handleScheduleUpdated}
+            onScheduleDeleted={handleScheduleDeleted}
           />
         )}
 
@@ -318,7 +357,10 @@ export default function SchedulerPage() {
           <MonthlyView
             currentDate={currentDate}
             filteredSchedules={filteredSchedules}
+            staffList={staffList}
             onMonthChange={setCurrentDate}
+            onScheduleUpdated={handleScheduleUpdated}
+            onScheduleDeleted={handleScheduleDeleted}
           />
         )}
       </div>
