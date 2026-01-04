@@ -29,6 +29,7 @@ export default function StaffGrid({ staffList }: { staffList: Staff[] }) {
           <CardHeader>
             <div className="flex items-center gap-3">
               <Avatar
+                backgroundColor="#9742FF"
                 name={staff.full_name}
                 size={30}
                 fontSize={14}

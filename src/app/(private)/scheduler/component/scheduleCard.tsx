@@ -3,7 +3,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { format } from "date-fns";
-import { MapPinned } from "lucide-react";
+import { Clock, MapPin, User } from "lucide-react";
 import { useRef } from "react";
 import EditScheduleModal from "./editScheduleModal";
 
@@ -69,56 +69,62 @@ export default function ScheduleCard({
       </EditScheduleModal>
 
       <Card
-        className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
+        className="overflow-hidden hover:shadow-lg transition-all cursor-pointer border-l-4 border-l-blue-500"
         onClick={handleCardClick}
       >
         <CardContent className="p-3 space-y-2">
-          {/* Staff Name */}
-          <div className="font-semibold text-sm text-primary">{staff_name}</div>
-
-          {/* Date and Time */}
-          <div className="text-xs space-y-1">
-            <div className="flex items-center gap-2">
-              <span className="text-muted-foreground">Date:</span>
-              <span className="font-medium">
-                {format(startDate, "MMM dd, yyyy")}
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-muted-foreground">Time:</span>
-              <span className="font-medium">
-                {format(startDate, "HH:mm")} - {format(endDate, "HH:mm")}
-              </span>
-            </div>
+          {/* Time - Primary Info */}
+          <div className="flex items-center gap-2">
+            <Clock className="h-4 w-4 text-blue-600 shrink-0" />
+            <span className="font-bold text-sm text-gray-800">
+              {format(startDate, "h:mm a")} - {format(endDate, "h:mm a")}
+            </span>
           </div>
 
-          {/* Shift Hours */}
+          {/* Staff Name */}
           <div className="flex items-center gap-2">
-            <Badge variant="outline" className="text-xs">
+            <User className="h-4 w-4 text-gray-500 shrink-0" />
+            <span className="font-semibold text-sm text-gray-700 truncate">
+              {staff_name}
+            </span>
+          </div>
+
+          {/* Work Address */}
+          <div className="flex items-start gap-2">
+            <MapPin className="h-4 w-4 text-gray-500 shrink-0 mt-0.5" />
+            <span className="text-xs text-gray-600 line-clamp-2">
+              {work_address}
+            </span>
+          </div>
+
+          {/* Shift Hours Badge */}
+          <div className="pt-1">
+            <Badge
+              variant="secondary"
+              className="text-xs bg-blue-100 text-blue-700 hover:bg-blue-100"
+            >
               {shiftHours.toFixed(1)}h
             </Badge>
           </div>
 
-          {/* Work Address */}
-          <div className="text-xs text-muted-foreground truncate flex items-center gap-1">
-            <MapPinned /> {work_address}
-          </div>
-
           {/* Bonus and Instructions */}
-          <div className="space-y-1">
-            {shift_bonus && (
-              <div className="text-xs">
-                <Badge variant="secondary" className="text-xs">
-                  Bonus: ${shift_bonus}
+          {(shift_bonus || instruction) && (
+            <div className="space-y-1 pt-1">
+              {shift_bonus && (
+                <Badge
+                  variant="outline"
+                  className="text-xs bg-green-50 text-green-700 border-green-200"
+                >
+                  +${shift_bonus}
                 </Badge>
-              </div>
-            )}
-            {instruction && (
-              <div className="text-xs text-muted-foreground bg-muted p-2 rounded max-h-12 overflow-y-auto">
-                {instruction}
-              </div>
-            )}
-          </div>
+              )}
+              {instruction && (
+                <div className="text-xs text-gray-600 bg-gray-50 p-2 rounded border border-gray-200 line-clamp-2">
+                  {instruction}
+                </div>
+              )}
+            </div>
+          )}
         </CardContent>
       </Card>
     </>

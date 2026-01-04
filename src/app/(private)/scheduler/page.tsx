@@ -9,6 +9,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle,
+} from "@/components/ui/empty";
 import { Input } from "@/components/ui/input";
 import {
   addWeeks,
@@ -97,13 +103,6 @@ export default function SchedulerPage() {
     loadSchedules();
   }, [currentDate, viewMode]);
 
-  const filteredStaff =
-    searchQuery.trim() === ""
-      ? staffList
-      : staffList.filter((staff) =>
-          staff.full_name.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-
   // Filter schedules based on search query
   const filteredSchedules =
     searchQuery.trim() === ""
@@ -114,21 +113,8 @@ export default function SchedulerPage() {
             .includes(searchQuery.toLowerCase())
         );
 
-  // Get week start and end
   const weekStart = startOfWeek(currentDate, { weekStartsOn: 0 });
   const weekEnd = endOfWeek(currentDate, { weekStartsOn: 0 });
-
-  // Calculate hours per staff
-  const getStaffHours = (staffId: number): number => {
-    return schedules
-      .filter((schedule) => schedule.staffId === staffId)
-      .reduce((total, schedule) => {
-        const start = new Date(schedule.startTime);
-        const end = new Date(schedule.endTime);
-        const hours = (end.getTime() - start.getTime()) / (1000 * 60 * 60);
-        return total + hours;
-      }, 0);
-  };
 
   const handlePreviousWeek = () => {
     setCurrentDate(subWeeks(currentDate, 1));
@@ -145,7 +131,6 @@ export default function SchedulerPage() {
   };
 
   const handleScheduleCreated = async () => {
-    // Reload schedules after creation
     const weekStart = startOfWeek(currentDate, { weekStartsOn: 0 });
     const weekEnd = endOfWeek(currentDate, { weekStartsOn: 0 });
     const scheduleData = await getScheduleList({
@@ -192,79 +177,79 @@ export default function SchedulerPage() {
   };
 
   return (
-    <div className="flex h-full gap-4 p-6">
-      {/* Left Sidebar */}
-      <div className="hidden lg:block">
-        <div className="w-64 ">
-          <div className="mb-6">
-            <Input
-              placeholder="Search Staff..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className=""
-            />
-          </div>
-        </div>
-
-        {/* Staff List */}
-        <div className="space-y-3">
-          {filteredStaff.map((staff) => (
-            <div
-              key={staff.id}
-              className="p-3 border rounded-lg hover:bg-accent cursor-pointer"
-            >
-              <p className="font-semibold text-sm">{staff.full_name}</p>
-              <p className="text-xs text-muted-foreground">
-                {getStaffHours(staff.id).toFixed(1)} hours
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-
+    <div className=" h-full gap-4 p-6">
       {/* Main Content */}
-      <div className="flex-1">
+      <div>
         {/* Header */}
-        <div className="flex items-center justify-center lg:justify-end mb-6 gap-4">
-          <div className="flex justify-center items-center lg:hidden w-full">
-            <div className="w-64">
-              <div className="mb-6">
-                <Input
-                  placeholder="Search Staff..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="mb-4"
-                />
-              </div>
-              <div className="flex items-center gap-2">
-                <Button
-                  variant={viewMode === "weekly" ? "default" : "outline"}
-                  onClick={() => setViewMode("weekly")}
-                >
-                  Weekly
-                </Button>
-                <Button
-                  variant={viewMode === "monthly" ? "default" : "outline"}
-                  onClick={() => setViewMode("monthly")}
-                >
-                  Monthly
-                </Button>
-
-                <CreateScheduleModal
-                  staffList={staffList}
-                  onScheduleCreated={handleScheduleCreated}
-                >
-                  <Button className="ml-2">
-                    <Plus className="h-4 w-4 mr-2" />
-                    Add Schedule
-                  </Button>
-                </CreateScheduleModal>
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-6 gap-4">
+          <div className="flex gap-4 justify-between">
+            {/* Left Sidebar */}
+            <div>
+              <div className="w-64 ">
+                <div>
+                  <Input
+                    placeholder="Search Staff..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className=""
+                  />
+                </div>
               </div>
             </div>
-          </div>
+            {viewMode === "weekly" && (
+              <div className="hidden lg:flex items-center gap-4">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={handlePreviousWeek}
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
 
+                <Dialog
+                  open={showCalendarModal}
+                  onOpenChange={setShowCalendarModal}
+                >
+                  <DialogTrigger asChild>
+                    <Button variant="outline" className="min-w-fit">
+                      {format(weekStart, "MMM dd")} -{" "}
+                      {format(weekEnd, "MMM dd, yyyy")}
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Select Week</DialogTitle>
+                    </DialogHeader>
+                    <div className="flex flex-col items-center gap-4">
+                      <Calendar
+                        mode="single"
+                        selected={currentDate}
+                        onSelect={(date: Date | undefined) =>
+                          handleDateSelect(date)
+                        }
+                      />
+                      <Button
+                        variant="outline"
+                        onClick={() => {
+                          setCurrentDate(new Date());
+                          setShowCalendarModal(false);
+                        }}
+                        className="w-full"
+                      >
+                        This Week
+                      </Button>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+
+                <Button variant="outline" size="icon" onClick={handleNextWeek}>
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
+            )}
+          </div>
           {viewMode === "weekly" && (
-            <div className="flex items-center gap-4">
+            <div className="flex lg:hidden items-center gap-4">
               <Button
                 variant="outline"
                 size="icon"
@@ -314,8 +299,7 @@ export default function SchedulerPage() {
               </Button>
             </div>
           )}
-
-          <div className="hidden lg:flex items-center gap-2">
+          <div className="flex items-center gap-2">
             <Button
               variant={viewMode === "weekly" ? "default" : "outline"}
               onClick={() => setViewMode("weekly")}
@@ -341,27 +325,40 @@ export default function SchedulerPage() {
           </div>
         </div>
 
-        {/* Weekly View */}
-        {viewMode === "weekly" && (
-          <WeeklyView
-            currentDate={currentDate}
-            filteredSchedules={filteredSchedules}
-            staffList={staffList}
-            onScheduleUpdated={handleScheduleUpdated}
-            onScheduleDeleted={handleScheduleDeleted}
-          />
-        )}
+        {!staffList || staffList.length === 0 ? (
+          <Empty className="border border-dashed">
+            <EmptyHeader>
+              <EmptyTitle>No Staff Found</EmptyTitle>
+              <EmptyDescription>
+                Start by creating staff profiles.
+              </EmptyDescription>
+            </EmptyHeader>
+          </Empty>
+        ) : (
+          <>
+            {/* Weekly View */}
+            {viewMode === "weekly" && (
+              <WeeklyView
+                currentDate={currentDate}
+                filteredSchedules={filteredSchedules}
+                staffList={staffList}
+                onScheduleUpdated={handleScheduleUpdated}
+                onScheduleDeleted={handleScheduleDeleted}
+              />
+            )}
 
-        {/* Monthly View */}
-        {viewMode === "monthly" && (
-          <MonthlyView
-            currentDate={currentDate}
-            filteredSchedules={filteredSchedules}
-            staffList={staffList}
-            onMonthChange={setCurrentDate}
-            onScheduleUpdated={handleScheduleUpdated}
-            onScheduleDeleted={handleScheduleDeleted}
-          />
+            {/* Monthly View */}
+            {viewMode === "monthly" && (
+              <MonthlyView
+                currentDate={currentDate}
+                filteredSchedules={filteredSchedules}
+                staffList={staffList}
+                onMonthChange={setCurrentDate}
+                onScheduleUpdated={handleScheduleUpdated}
+                onScheduleDeleted={handleScheduleDeleted}
+              />
+            )}
+          </>
         )}
       </div>
     </div>

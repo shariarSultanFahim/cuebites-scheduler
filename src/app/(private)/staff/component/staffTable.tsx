@@ -44,6 +44,7 @@ export function StaffTable({ data: staffs }: { data: Staff[] }) {
                   />
                 ) : (
                   <Avatar
+                    backgroundColor="#9742FF"
                     name={staff.full_name}
                     size={30}
                     fontSize={14}

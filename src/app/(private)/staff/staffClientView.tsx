@@ -1,6 +1,13 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle,
+} from "@/components/ui/empty";
 import { Input } from "@/components/ui/input";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Staff } from "@/generated/prisma/client";
@@ -75,8 +82,8 @@ export default function StaffClientView({
     <div>
       <div className="mb-6">
         {/* Top Bar */}
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex gap-4 justify-center items-center">
+        <div className="flex flex-col items-start lg:flex-row lg:items-center justify-between gap-4">
+          <div className="flex flex-col items-start lg:flex-row gap-4 justify-center lg:items-center">
             {/* Search */}
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -137,8 +144,24 @@ export default function StaffClientView({
         </div>
       </div>
 
-      {viewMode === "table" && <StaffTable data={staff} />}
-      {viewMode === "grid" && <StaffGrid staffList={staff} />}
+      {!staff || staff.length === 0 ? (
+        <Empty className="border border-dashed">
+          <EmptyHeader>
+            <EmptyTitle>Empty Staff List</EmptyTitle>
+            <EmptyDescription>
+              No staff members found. Start by creating staff profiles.
+            </EmptyDescription>
+          </EmptyHeader>
+          <EmptyContent>
+            <CreateStaff onStaffCreated={handleRefresh} />
+          </EmptyContent>
+        </Empty>
+      ) : (
+        <>
+          {viewMode === "table" && <StaffTable data={staff} />}
+          {viewMode === "grid" && <StaffGrid staffList={staff} />}
+        </>
+      )}
     </div>
   );
 }
