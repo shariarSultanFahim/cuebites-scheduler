@@ -90,10 +90,11 @@ export type StaffScalarFieldEnum = (typeof StaffScalarFieldEnum)[keyof typeof St
 
 export const ScheduleScalarFieldEnum = {
   id: 'id',
-  title: 'title',
-  description: 'description',
+  instruction: 'instruction',
   startTime: 'startTime',
   endTime: 'endTime',
+  workAddress: 'workAddress',
+  shiftBonus: 'shiftBonus',
   staffId: 'staffId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

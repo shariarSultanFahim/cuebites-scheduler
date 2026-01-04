@@ -28,20 +28,23 @@ export type AggregateSchedule = {
 
 export type ScheduleAvgAggregateOutputType = {
   id: number | null
+  shiftBonus: number | null
   staffId: number | null
 }
 
 export type ScheduleSumAggregateOutputType = {
   id: number | null
+  shiftBonus: number | null
   staffId: number | null
 }
 
 export type ScheduleMinAggregateOutputType = {
   id: number | null
-  title: string | null
-  description: string | null
+  instruction: string | null
   startTime: Date | null
   endTime: Date | null
+  workAddress: string | null
+  shiftBonus: number | null
   staffId: number | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -49,10 +52,11 @@ export type ScheduleMinAggregateOutputType = {
 
 export type ScheduleMaxAggregateOutputType = {
   id: number | null
-  title: string | null
-  description: string | null
+  instruction: string | null
   startTime: Date | null
   endTime: Date | null
+  workAddress: string | null
+  shiftBonus: number | null
   staffId: number | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -60,10 +64,11 @@ export type ScheduleMaxAggregateOutputType = {
 
 export type ScheduleCountAggregateOutputType = {
   id: number
-  title: number
-  description: number
+  instruction: number
   startTime: number
   endTime: number
+  workAddress: number
+  shiftBonus: number
   staffId: number
   createdAt: number
   updatedAt: number
@@ -73,20 +78,23 @@ export type ScheduleCountAggregateOutputType = {
 
 export type ScheduleAvgAggregateInputType = {
   id?: true
+  shiftBonus?: true
   staffId?: true
 }
 
 export type ScheduleSumAggregateInputType = {
   id?: true
+  shiftBonus?: true
   staffId?: true
 }
 
 export type ScheduleMinAggregateInputType = {
   id?: true
-  title?: true
-  description?: true
+  instruction?: true
   startTime?: true
   endTime?: true
+  workAddress?: true
+  shiftBonus?: true
   staffId?: true
   createdAt?: true
   updatedAt?: true
@@ -94,10 +102,11 @@ export type ScheduleMinAggregateInputType = {
 
 export type ScheduleMaxAggregateInputType = {
   id?: true
-  title?: true
-  description?: true
+  instruction?: true
   startTime?: true
   endTime?: true
+  workAddress?: true
+  shiftBonus?: true
   staffId?: true
   createdAt?: true
   updatedAt?: true
@@ -105,10 +114,11 @@ export type ScheduleMaxAggregateInputType = {
 
 export type ScheduleCountAggregateInputType = {
   id?: true
-  title?: true
-  description?: true
+  instruction?: true
   startTime?: true
   endTime?: true
+  workAddress?: true
+  shiftBonus?: true
   staffId?: true
   createdAt?: true
   updatedAt?: true
@@ -203,10 +213,11 @@ export type ScheduleGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 
 export type ScheduleGroupByOutputType = {
   id: number
-  title: string
-  description: string | null
+  instruction: string | null
   startTime: Date
   endTime: Date
+  workAddress: string
+  shiftBonus: number | null
   staffId: number
   createdAt: Date
   updatedAt: Date
@@ -237,10 +248,11 @@ export type ScheduleWhereInput = {
   OR?: Prisma.ScheduleWhereInput[]
   NOT?: Prisma.ScheduleWhereInput | Prisma.ScheduleWhereInput[]
   id?: Prisma.IntFilter<"Schedule"> | number
-  title?: Prisma.StringFilter<"Schedule"> | string
-  description?: Prisma.StringNullableFilter<"Schedule"> | string | null
+  instruction?: Prisma.StringNullableFilter<"Schedule"> | string | null
   startTime?: Prisma.DateTimeFilter<"Schedule"> | Date | string
   endTime?: Prisma.DateTimeFilter<"Schedule"> | Date | string
+  workAddress?: Prisma.StringFilter<"Schedule"> | string
+  shiftBonus?: Prisma.IntNullableFilter<"Schedule"> | number | null
   staffId?: Prisma.IntFilter<"Schedule"> | number
   createdAt?: Prisma.DateTimeFilter<"Schedule"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Schedule"> | Date | string
@@ -249,10 +261,11 @@ export type ScheduleWhereInput = {
 
 export type ScheduleOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
-  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  instruction?: Prisma.SortOrderInput | Prisma.SortOrder
   startTime?: Prisma.SortOrder
   endTime?: Prisma.SortOrder
+  workAddress?: Prisma.SortOrder
+  shiftBonus?: Prisma.SortOrderInput | Prisma.SortOrder
   staffId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -264,10 +277,11 @@ export type ScheduleWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ScheduleWhereInput | Prisma.ScheduleWhereInput[]
   OR?: Prisma.ScheduleWhereInput[]
   NOT?: Prisma.ScheduleWhereInput | Prisma.ScheduleWhereInput[]
-  title?: Prisma.StringFilter<"Schedule"> | string
-  description?: Prisma.StringNullableFilter<"Schedule"> | string | null
+  instruction?: Prisma.StringNullableFilter<"Schedule"> | string | null
   startTime?: Prisma.DateTimeFilter<"Schedule"> | Date | string
   endTime?: Prisma.DateTimeFilter<"Schedule"> | Date | string
+  workAddress?: Prisma.StringFilter<"Schedule"> | string
+  shiftBonus?: Prisma.IntNullableFilter<"Schedule"> | number | null
   staffId?: Prisma.IntFilter<"Schedule"> | number
   createdAt?: Prisma.DateTimeFilter<"Schedule"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Schedule"> | Date | string
@@ -276,10 +290,11 @@ export type ScheduleWhereUniqueInput = Prisma.AtLeast<{
 
 export type ScheduleOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
-  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  instruction?: Prisma.SortOrderInput | Prisma.SortOrder
   startTime?: Prisma.SortOrder
   endTime?: Prisma.SortOrder
+  workAddress?: Prisma.SortOrder
+  shiftBonus?: Prisma.SortOrderInput | Prisma.SortOrder
   staffId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -295,20 +310,22 @@ export type ScheduleScalarWhereWithAggregatesInput = {
   OR?: Prisma.ScheduleScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ScheduleScalarWhereWithAggregatesInput | Prisma.ScheduleScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Schedule"> | number
-  title?: Prisma.StringWithAggregatesFilter<"Schedule"> | string
-  description?: Prisma.StringNullableWithAggregatesFilter<"Schedule"> | string | null
+  instruction?: Prisma.StringNullableWithAggregatesFilter<"Schedule"> | string | null
   startTime?: Prisma.DateTimeWithAggregatesFilter<"Schedule"> | Date | string
   endTime?: Prisma.DateTimeWithAggregatesFilter<"Schedule"> | Date | string
+  workAddress?: Prisma.StringWithAggregatesFilter<"Schedule"> | string
+  shiftBonus?: Prisma.IntNullableWithAggregatesFilter<"Schedule"> | number | null
   staffId?: Prisma.IntWithAggregatesFilter<"Schedule"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Schedule"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Schedule"> | Date | string
 }
 
 export type ScheduleCreateInput = {
-  title: string
-  description?: string | null
+  instruction?: string | null
   startTime: Date | string
   endTime: Date | string
+  workAddress: string
+  shiftBonus?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   staff: Prisma.StaffCreateNestedOneWithoutSchedulesInput
@@ -316,20 +333,22 @@ export type ScheduleCreateInput = {
 
 export type ScheduleUncheckedCreateInput = {
   id?: number
-  title: string
-  description?: string | null
+  instruction?: string | null
   startTime: Date | string
   endTime: Date | string
+  workAddress: string
+  shiftBonus?: number | null
   staffId: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type ScheduleUpdateInput = {
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instruction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  shiftBonus?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   staff?: Prisma.StaffUpdateOneRequiredWithoutSchedulesNestedInput
@@ -337,10 +356,11 @@ export type ScheduleUpdateInput = {
 
 export type ScheduleUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instruction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  shiftBonus?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   staffId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -348,30 +368,33 @@ export type ScheduleUncheckedUpdateInput = {
 
 export type ScheduleCreateManyInput = {
   id?: number
-  title: string
-  description?: string | null
+  instruction?: string | null
   startTime: Date | string
   endTime: Date | string
+  workAddress: string
+  shiftBonus?: number | null
   staffId: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type ScheduleUpdateManyMutationInput = {
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instruction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  shiftBonus?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ScheduleUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instruction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  shiftBonus?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   staffId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -389,10 +412,11 @@ export type ScheduleOrderByRelationAggregateInput = {
 
 export type ScheduleCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
-  description?: Prisma.SortOrder
+  instruction?: Prisma.SortOrder
   startTime?: Prisma.SortOrder
   endTime?: Prisma.SortOrder
+  workAddress?: Prisma.SortOrder
+  shiftBonus?: Prisma.SortOrder
   staffId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -400,15 +424,17 @@ export type ScheduleCountOrderByAggregateInput = {
 
 export type ScheduleAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  shiftBonus?: Prisma.SortOrder
   staffId?: Prisma.SortOrder
 }
 
 export type ScheduleMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
-  description?: Prisma.SortOrder
+  instruction?: Prisma.SortOrder
   startTime?: Prisma.SortOrder
   endTime?: Prisma.SortOrder
+  workAddress?: Prisma.SortOrder
+  shiftBonus?: Prisma.SortOrder
   staffId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -416,10 +442,11 @@ export type ScheduleMaxOrderByAggregateInput = {
 
 export type ScheduleMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
-  description?: Prisma.SortOrder
+  instruction?: Prisma.SortOrder
   startTime?: Prisma.SortOrder
   endTime?: Prisma.SortOrder
+  workAddress?: Prisma.SortOrder
+  shiftBonus?: Prisma.SortOrder
   staffId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -427,6 +454,7 @@ export type ScheduleMinOrderByAggregateInput = {
 
 export type ScheduleSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  shiftBonus?: Prisma.SortOrder
   staffId?: Prisma.SortOrder
 }
 
@@ -472,21 +500,31 @@ export type ScheduleUncheckedUpdateManyWithoutStaffNestedInput = {
   deleteMany?: Prisma.ScheduleScalarWhereInput | Prisma.ScheduleScalarWhereInput[]
 }
 
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type ScheduleCreateWithoutStaffInput = {
-  title: string
-  description?: string | null
+  instruction?: string | null
   startTime: Date | string
   endTime: Date | string
+  workAddress: string
+  shiftBonus?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type ScheduleUncheckedCreateWithoutStaffInput = {
   id?: number
-  title: string
-  description?: string | null
+  instruction?: string | null
   startTime: Date | string
   endTime: Date | string
+  workAddress: string
+  shiftBonus?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -521,10 +559,11 @@ export type ScheduleScalarWhereInput = {
   OR?: Prisma.ScheduleScalarWhereInput[]
   NOT?: Prisma.ScheduleScalarWhereInput | Prisma.ScheduleScalarWhereInput[]
   id?: Prisma.IntFilter<"Schedule"> | number
-  title?: Prisma.StringFilter<"Schedule"> | string
-  description?: Prisma.StringNullableFilter<"Schedule"> | string | null
+  instruction?: Prisma.StringNullableFilter<"Schedule"> | string | null
   startTime?: Prisma.DateTimeFilter<"Schedule"> | Date | string
   endTime?: Prisma.DateTimeFilter<"Schedule"> | Date | string
+  workAddress?: Prisma.StringFilter<"Schedule"> | string
+  shiftBonus?: Prisma.IntNullableFilter<"Schedule"> | number | null
   staffId?: Prisma.IntFilter<"Schedule"> | number
   createdAt?: Prisma.DateTimeFilter<"Schedule"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Schedule"> | Date | string
@@ -532,39 +571,43 @@ export type ScheduleScalarWhereInput = {
 
 export type ScheduleCreateManyStaffInput = {
   id?: number
-  title: string
-  description?: string | null
+  instruction?: string | null
   startTime: Date | string
   endTime: Date | string
+  workAddress: string
+  shiftBonus?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type ScheduleUpdateWithoutStaffInput = {
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instruction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  shiftBonus?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ScheduleUncheckedUpdateWithoutStaffInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instruction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  shiftBonus?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ScheduleUncheckedUpdateManyWithoutStaffInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instruction?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  shiftBonus?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -573,10 +616,11 @@ export type ScheduleUncheckedUpdateManyWithoutStaffInput = {
 
 export type ScheduleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  title?: boolean
-  description?: boolean
+  instruction?: boolean
   startTime?: boolean
   endTime?: boolean
+  workAddress?: boolean
+  shiftBonus?: boolean
   staffId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -585,10 +629,11 @@ export type ScheduleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
 
 export type ScheduleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  title?: boolean
-  description?: boolean
+  instruction?: boolean
   startTime?: boolean
   endTime?: boolean
+  workAddress?: boolean
+  shiftBonus?: boolean
   staffId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -597,10 +642,11 @@ export type ScheduleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
 
 export type ScheduleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  title?: boolean
-  description?: boolean
+  instruction?: boolean
   startTime?: boolean
   endTime?: boolean
+  workAddress?: boolean
+  shiftBonus?: boolean
   staffId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -609,16 +655,17 @@ export type ScheduleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
 
 export type ScheduleSelectScalar = {
   id?: boolean
-  title?: boolean
-  description?: boolean
+  instruction?: boolean
   startTime?: boolean
   endTime?: boolean
+  workAddress?: boolean
+  shiftBonus?: boolean
   staffId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ScheduleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "startTime" | "endTime" | "staffId" | "createdAt" | "updatedAt", ExtArgs["result"]["schedule"]>
+export type ScheduleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "instruction" | "startTime" | "endTime" | "workAddress" | "shiftBonus" | "staffId" | "createdAt" | "updatedAt", ExtArgs["result"]["schedule"]>
 export type ScheduleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   staff?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
 }
@@ -636,10 +683,11 @@ export type $SchedulePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    title: string
-    description: string | null
+    instruction: string | null
     startTime: Date
     endTime: Date
+    workAddress: string
+    shiftBonus: number | null
     staffId: number
     createdAt: Date
     updatedAt: Date
@@ -1068,10 +1116,11 @@ export interface Prisma__ScheduleClient<T, Null = never, ExtArgs extends runtime
  */
 export interface ScheduleFieldRefs {
   readonly id: Prisma.FieldRef<"Schedule", 'Int'>
-  readonly title: Prisma.FieldRef<"Schedule", 'String'>
-  readonly description: Prisma.FieldRef<"Schedule", 'String'>
+  readonly instruction: Prisma.FieldRef<"Schedule", 'String'>
   readonly startTime: Prisma.FieldRef<"Schedule", 'DateTime'>
   readonly endTime: Prisma.FieldRef<"Schedule", 'DateTime'>
+  readonly workAddress: Prisma.FieldRef<"Schedule", 'String'>
+  readonly shiftBonus: Prisma.FieldRef<"Schedule", 'Int'>
   readonly staffId: Prisma.FieldRef<"Schedule", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Schedule", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Schedule", 'DateTime'>

@@ -49,12 +49,13 @@ model Staff {
 
 model Schedule {
   id          Int     @id @default(autoincrement())
-  title       String
-  description String?
+  instruction String?
   
   // Time Slot
   startTime   DateTime
   endTime     DateTime
+  workAddress String
+  shiftBonus  Int?
 
   // Relationship to Staff
   staffId     Int
