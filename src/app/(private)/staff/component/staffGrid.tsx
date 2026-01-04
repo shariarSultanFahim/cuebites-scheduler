@@ -10,7 +10,15 @@ import {
 import { Staff } from "@/generated/prisma/client";
 import { getCountryFlagEmoji, getCountryNameByCode } from "@/lib/countries";
 import { Avatar } from "@makozi/react-user-avatar-generator";
-import { AlertCircle, Globe, MapPin, Phone } from "lucide-react";
+import {
+  AlertCircle,
+  Globe,
+  MapPin,
+  Mars,
+  Phone,
+  Venus,
+  VenusAndMars,
+} from "lucide-react";
 import Image from "next/image";
 
 export default function StaffGrid({ staffList }: { staffList: Staff[] }) {
@@ -27,7 +35,16 @@ export default function StaffGrid({ staffList }: { staffList: Staff[] }) {
                 shape="square"
               />
               <div>
-                <CardTitle>{staff.full_name}</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  {staff.full_name}{" "}
+                  {staff.gender === "MALE" ? (
+                    <Mars className="text-blue-500 text-sm"></Mars>
+                  ) : staff.gender === "FEMALE" ? (
+                    <Venus className="text-pink-500 text-sm"></Venus>
+                  ) : (
+                    <VenusAndMars className="text-pink-500 text-sm"></VenusAndMars>
+                  )}
+                </CardTitle>
                 <CardDescription className="text-xs">
                   {staff.status}
                 </CardDescription>
