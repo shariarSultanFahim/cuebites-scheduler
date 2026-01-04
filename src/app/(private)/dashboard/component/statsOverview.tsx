@@ -1,6 +1,6 @@
 "use client";
 
-import { Calendar, Clock, Users } from "lucide-react";
+import { Calendar, Users } from "lucide-react";
 import { StatsCard } from "./statsCard";
 
 interface StatsOverviewProps {
@@ -31,8 +31,8 @@ export function StatsOverview({
       <StatsCard
         title="Active Schedules"
         value={activeSchedules}
-        description="Upcoming shifts"
-        icon={Clock}
+        description="Currently active schedules"
+        icon={Calendar}
       />
     </div>
   );

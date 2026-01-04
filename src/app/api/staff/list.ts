@@ -1,8 +1,10 @@
 "use server";
 import { StaffStatus } from "@/generated/prisma/enums";
 import { prisma } from "@/generated/prisma/prisma";
+import { connection } from "next/server";
 
 export async function getStaffList(searchQuery?: string, status?: StaffStatus) {
+  await connection();
   try {
     const staffList = await prisma.staff.findMany({
       where: {

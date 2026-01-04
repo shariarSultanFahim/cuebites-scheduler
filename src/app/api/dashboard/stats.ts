@@ -1,24 +1,27 @@
 "use server";
 
 import { prisma } from "@/generated/prisma/prisma";
+import { connection } from "next/server";
 
 export async function getDashboardStats() {
+  await connection();
   try {
-    const now = new Date();
-    const [totalStaff, activeSchedules, totalSchedules] = await Promise.all([
+    const [totalStaff, totalSchedules, activeSchedules] = await Promise.all([
       prisma.staff.count(),
-      prisma.schedule.count({
-        where: { startTime: { gte: now } },
-      }),
       prisma.schedule.count(),
+      prisma.schedule.count({
+        where: {
+          startTime: { gte: new Date() },
+        },
+      }),
     ]);
 
     return {
       success: true,
       data: {
         totalStaff,
-        activeSchedules,
         totalSchedules,
+        activeSchedules,
       },
     };
   } catch (error) {
@@ -31,6 +34,7 @@ export async function getDashboardStats() {
 }
 
 export async function getTopStaffBySchedules() {
+  await connection();
   try {
     const topStaff = await prisma.staff.findMany({
       select: {

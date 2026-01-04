@@ -1,24 +1,12 @@
-import { getDashboardStats } from "../../api/dashboard/stats";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Suspense } from "react";
 import { QuickActions } from "./component/quickActions";
 import { RecentActivity } from "./component/recentActivity";
-import { StatsOverview } from "./component/statsOverview";
+import { StatsWrapper } from "./component/statsWrapper";
 
-export default async function DashboardPage() {
-  const result = await getDashboardStats();
-
-  if (!result.success) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <p className="text-muted-foreground">Failed to load dashboard stats</p>
-      </div>
-    );
-  }
-
-  const { totalStaff, totalSchedules, activeSchedules } = result.data!;
-
+export default function DashboardPage() {
   return (
     <div className="space-y-8">
-      {/* Header */}
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
         <p className="text-muted-foreground mt-2">
@@ -26,18 +14,26 @@ export default async function DashboardPage() {
         </p>
       </div>
 
-      {/* Stats Overview */}
-      <StatsOverview
-        totalStaff={totalStaff}
-        totalSchedules={totalSchedules}
-        activeSchedules={activeSchedules}
-      />
+      <Suspense fallback={<StatsSkeleton />}>
+        <StatsWrapper />
+      </Suspense>
 
-      {/* Bottom Section */}
       <div className="grid gap-4 md:grid-cols-2">
-        <RecentActivity />
+        <Suspense fallback={<Skeleton className="h-75" />}>
+          <RecentActivity />
+        </Suspense>
         <QuickActions />
       </div>
+    </div>
+  );
+}
+
+function StatsSkeleton() {
+  return (
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <Skeleton className="h-32 w-full" />
+      <Skeleton className="h-32 w-full" />
+      <Skeleton className="h-32 w-full" />
     </div>
   );
 }
