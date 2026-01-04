@@ -16,6 +16,7 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { Input } from "@/components/ui/input";
+import { useDebounce } from "@/hooks/use-debounce";
 import {
   addWeeks,
   endOfMonth,
@@ -57,9 +58,9 @@ export default function SchedulerPage() {
   const [staffList, setStaffList] = useState<Staff[]>([]);
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const debouncedSearchQuery = useDebounce(searchQuery, 300);
   const [showCalendarModal, setShowCalendarModal] = useState(false);
 
-  // Load staff and schedules
   useEffect(() => {
     const loadData = async () => {
       const staff = await getStaffList();
@@ -68,7 +69,6 @@ export default function SchedulerPage() {
     loadData();
   }, [currentDate]);
 
-  // Load schedules when date range changes
   useEffect(() => {
     const loadSchedules = async () => {
       const rangeStart =
@@ -103,15 +103,30 @@ export default function SchedulerPage() {
     loadSchedules();
   }, [currentDate, viewMode]);
 
-  // Filter schedules based on search query
   const filteredSchedules =
-    searchQuery.trim() === ""
+    debouncedSearchQuery.trim() === ""
       ? schedules
-      : schedules.filter((schedule) =>
-          schedule.staff.full_name
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase())
-        );
+      : schedules.filter((schedule) => {
+          const query = debouncedSearchQuery.toLowerCase();
+          return (
+            schedule.staff.full_name.toLowerCase().includes(query) ||
+            schedule.workAddress.toLowerCase().includes(query)
+          );
+        });
+
+  const filteredStaffList =
+    debouncedSearchQuery.trim() === ""
+      ? staffList
+      : staffList.filter((staff) => {
+          const query = debouncedSearchQuery.toLowerCase();
+          const staffHasMatchingSchedules = filteredSchedules.some(
+            (schedule) => schedule.staffId === staff.id
+          );
+          return (
+            staff.full_name.toLowerCase().includes(query) ||
+            staffHasMatchingSchedules
+          );
+        });
 
   const weekStart = startOfWeek(currentDate, { weekStartsOn: 0 });
   const weekEnd = endOfWeek(currentDate, { weekStartsOn: 0 });
@@ -341,7 +356,7 @@ export default function SchedulerPage() {
               <WeeklyView
                 currentDate={currentDate}
                 filteredSchedules={filteredSchedules}
-                staffList={staffList}
+                staffList={filteredStaffList}
                 onScheduleUpdated={handleScheduleUpdated}
                 onScheduleDeleted={handleScheduleDeleted}
               />
@@ -352,7 +367,7 @@ export default function SchedulerPage() {
               <MonthlyView
                 currentDate={currentDate}
                 filteredSchedules={filteredSchedules}
-                staffList={staffList}
+                staffList={filteredStaffList}
                 onMonthChange={setCurrentDate}
                 onScheduleUpdated={handleScheduleUpdated}
                 onScheduleDeleted={handleScheduleDeleted}

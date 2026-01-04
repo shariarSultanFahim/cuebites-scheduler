@@ -39,7 +39,7 @@ export async function RecentActivity() {
               className="flex items-center justify-between pb-4 border-b last:border-b-0 last:pb-0"
             >
               <div className="flex items-center gap-3">
-                <div className="flex items-center justify-center h-8 w-8 rounded-full bg-primary/10">
+                <div className="flex items-center justify-center h-8 w-8 rounded-sm bg-primary/10">
                   <span className="text-sm font-semibold">#{index + 1}</span>
                 </div>
                 <div>
